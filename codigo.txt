@@ -1,0 +1,94 @@
+    init: function () {
+      var maps = $('.cartodb-map');
+      maps.each(function () {
+        var vizjson_url = $(this).attr('data-url');
+        if ((events.device != 'mobile') && (!carto.isListado())) {  
+          carto.loadMap($(this));
+        }
+        else {
+          carto.adjustMapHeight();
+          carto.loadStaticImage($(this), vizjson_url);
+          if (!carto.isListado()) {
+            carto.attachEvents($(this));
+          }
+        }
+      });
+    },
+
+// FUNCIONES EN CASO DE …XITO/ERROR DE LA CARGA DEL MAPA
+
+    onVisDone: function (vis, layers) {
+      var user = $(vis.el).attr('data-user');
+      carto.customizeLegend(vis);			// CUSTOMIZAMOS LOS ELEMENTOS
+      carto.customizeTimeSlider(vis);			
+      carto.placeZoomControls(vis);
+      if (carto.isIdealistaUser(user)) {		// A—ADIMOS ELEMENTOS CORPORATIVOS
+        carto.placeIdealistaLogo(vis);
+        carto.placeIdealistaAttribution(vis, user);
+      }
+    },
+
+    onVisError: function (error) {
+      console.log(error);
+    },
+
+// DEFINIMOS LA CONFIGURACI”N DEL MAPA
+
+    configureMapSettings: function () {
+      var settings = null;
+      switch (events.device) {
+        case 'mobile':
+          settings = {
+            title: true,
+            force_mobile: true,
+            mobile_layout: true,
+            https: true,
+            shareable: false,
+            legends: true,
+            infowindow: true,
+            zoomControl: false
+          };
+          break;
+        case 'tablet':
+        default:
+          settings = {
+            title: true,
+            carto_logo: false,
+            https: true,
+            shareable: false,
+            legends: true,
+            infowindow: true,
+            zoomControl: true
+          };
+      }
+      return settings;
+    },
+
+
+// CARGAMOS EL MAPA   //
+
+    loadMap: function (map) {
+      var settings = carto.configureMapSettings();
+      var urlCartoDB = map.data('url');
+      cartodb.createVis(map, urlCartoDB, settings)  //FUNCI”N PRINCIPAL DE LA LIBRERÕA
+          .done(carto.onVisDone)
+          .error(carto.onVisError);
+    },
+
+// CARGAMOS IMAGEN STATIC PARA LISTADOS Y M”VILES
+
+    loadStaticImage: function (map, vizjson_url) {
+      map.empty();
+      cartodb.Image(vizjson_url, {override_bbox: true})
+          .size(640, 640)
+          .zoom(6) //Zoom para que se vea Espa√±a
+          .center([39.8, -3.84]) //Lo centramos en Madrid
+          .getUrl(function (err, url) {
+            var img = new Image();
+            var imgWrapper = $('<div/>');
+            imgWrapper.addClass('icon-play');
+            img.src = url;
+            imgWrapper.append(img);
+            $('.cartodb-map').append(imgWrapper);
+          });
+    },

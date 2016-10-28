@@ -1,0 +1,57 @@
+Query asistencia por provincias
+
+SELECT demo.asistentes, demo.ponentes, demo.ponentes_nombre, demo.provincia, prov.cartodb_id,prov.the_geom, prov.the_geom_webmercator FROM ign_spanish_adm2_provinces_displaced_canary prov
+inner join demo_asistencia_drupal_camp demo on demo.natcode = prov.natcode
+
+
+CSS
+
+/** choropleth visualization */
+
+#ign_spanish_adm2_provinces_displaced_canary{
+  polygon-fill: #EDF8FB;
+  polygon-opacity: 0.8;
+  line-color: #000000;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+#ign_spanish_adm2_provinces_displaced_canary [ asistentes <= 70] {
+   polygon-fill: #b62682;
+}
+#ign_spanish_adm2_provinces_displaced_canary [ asistentes <= 65] {
+   polygon-fill: #50680a;
+}
+#ign_spanish_adm2_provinces_displaced_canary [ asistentes <= 50] {
+   polygon-fill: #769919;
+}
+#ign_spanish_adm2_provinces_displaced_canary [ asistentes <= 39] {
+   polygon-fill: #b1d004;
+}
+#ign_spanish_adm2_provinces_displaced_canary [ asistentes <= 27] {
+   polygon-fill: #dffa45;
+}
+
+
+LEYENDA
+
+<div class='cartodb-legend choropleth'>	
+<div style="text-transform:none;" class="legend-title">Asistentes a la DrupalCamp por provincia</div>
+<ul>
+	<li style="text-transform:none;" class="min">
+		Mín
+	</li>
+	<li style="text-transform:none;" class="max">
+		Máx
+	</li>
+	<li class="graph count_315">
+	<div class="colors">
+	<div class="quartile" style="background-color:#dffa45"></div>
+	<div class="quartile" style="background-color:#b1d004"></div>
+	<div class="quartile" style="background-color:#769919"></div>
+	<div class="quartile" style="background-color:#50680a"></div>
+	<div class="quartile" style="background-color:#b62682"></div>
+
+	</div>
+	</li>
+</ul>
+</div>
