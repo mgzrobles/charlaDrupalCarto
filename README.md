@@ -23,5 +23,6 @@ Ambos somos integrantes del equipo de tecnología de idealista/news, publicación 
 
 
 En el repo dejamos código visto en la parte de demo.
-En charla.txt está la parte de código para las consultas contra los dataset en el mapa y para modificar estilos en la herramienta carto y en codigo.txt código javascript para integrarse con su api.
-En demo-asistencia-drupal-camp.xlsx tenemos los datos de ejemplos usados en la demo, utilizados para generar el dataset en carto.
+- En charla.txt está la parte de código para las consultas contra los dataset en el mapa y para modificar estilos en la herramienta carto
+- En codigo.txt código javascript para integrarse con su api.
+- En demo-asistencia-drupal-camp.xlsx tenemos los datos de ejemplos usados en la demo, utilizados para generar el dataset en carto.
